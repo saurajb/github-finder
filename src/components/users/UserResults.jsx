@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import Spinner from "../layout/spinner";
+import UserItem from "./UserItem";
 
 function UserResults() {
   const [data, setdata] = useState([]);
@@ -20,13 +22,22 @@ function UserResults() {
     setloading(false);
   };
 
-  return (
-    <div className="grid grid-cols-1 gap-8 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2">
-      {data.map((item) => (
-        <h3 key={item.id}>{item.login}</h3>
-      ))}
-    </div>
-  );
+  if (!loading) {
+    return (
+      <div className="grid grid-cols-1 gap-8 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2">
+        {data.map((item) => (
+          <UserItem key={item.id} item={item} />
+        ))}
+      </div>
+    );
+  } else {
+    return (
+      <div className="loader">
+        <Spinner />
+        <h3 className="text-white">Loading</h3>
+      </div>
+    );
+  }
 }
 
 export default UserResults;
