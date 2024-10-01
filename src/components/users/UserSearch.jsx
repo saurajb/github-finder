@@ -1,16 +1,18 @@
 import { useState, useContext } from "react";
 import { GithubContext } from "../../context/github/GithubContext";
+import AlertContext from "../../context/alert/AlertContext";
 
 function UserSearch() {
   const [text, settext] = useState("");
-  const { users, searchusers } = useContext(GithubContext);
+  const { users, searchusers, clearusers } = useContext(GithubContext);
+  const { setalert } = useContext(AlertContext);
 
   const handlechange = (e) => settext(e.target.value);
 
   const handlesubmit = (e) => {
     e.preventDefault();
     if (text === "") {
-      alert("field is empty");
+      setalert("error", "something went wrong");
     } else {
       searchusers(text);
       settext("");
@@ -41,7 +43,9 @@ function UserSearch() {
       </div>
       {users.length > 0 && (
         <div>
-          <button className="btn btn-ghost btn-lg">Clear</button>
+          <button onClick={clearusers} className="btn btn-ghost btn-lg">
+            Clear
+          </button>
         </div>
       )}
     </div>

@@ -36,11 +36,28 @@ export const GithubProvider = ({ children }) => {
     });
   };
 
+  // clear users
+  const clearusers = () => {
+    const clearstate = {
+      users: [],
+      loading: false,
+    };
+
+    dispatch({
+      type: "CLEAR_USERS",
+    });
+  };
+
   const setloading = () => dispatch({ type: "SET_LOADING" });
 
   return (
     <GithubContext.Provider
-      value={{ users: state.users, loading: state.loading, searchusers }}>
+      value={{
+        users: state.users,
+        loading: state.loading,
+        searchusers,
+        clearusers,
+      }}>
       {children}
     </GithubContext.Provider>
   );
