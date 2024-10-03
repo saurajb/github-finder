@@ -10,6 +10,7 @@ const GITHUB_URL = import.meta.env.VITE_GITHUB_URL;
 export const GithubProvider = ({ children }) => {
   const initialstate = {
     users: [],
+    user: {},
     loading: false,
   };
 
@@ -36,6 +37,28 @@ export const GithubProvider = ({ children }) => {
     });
   };
 
+  // get single user profile info
+  const getuser = async (login) => {
+    setloading();
+
+    const response = await fetch(`${GITHUB_URL}/users/${login}`, {
+      headers: {
+        Authorization: `token ${GITHUB_TOKEN}`,
+      },
+    });
+
+    if (response.status === "404") {
+      window.location = "/notfound";
+    } else {
+      const data = await response.json();
+
+      dispatch({
+        type: "GET_USER",
+        payload: data,
+      });
+    }
+  };
+
   // clear users
   const clearusers = () => {
     const clearstate = {
@@ -55,8 +78,10 @@ export const GithubProvider = ({ children }) => {
       value={{
         users: state.users,
         loading: state.loading,
+        user: state.user,
         searchusers,
         clearusers,
+        getuser,
       }}>
       {children}
     </GithubContext.Provider>

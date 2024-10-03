@@ -3,6 +3,7 @@ import { useState } from "react";
 import About from "./pages/About";
 import Home from "./pages/Home";
 import Notfound from "./pages/Notfound";
+import UserProfile from "./pages/UserProfile";
 import Navbar from "./components/layout/navbar";
 import Footer from "./components/layout/footer";
 import Alert from "./components/layout/Alert";
@@ -23,6 +24,7 @@ function App() {
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/about" element={<About />} />
+                <Route path="/user/:login" element={<UserProfile />} />
                 <Route path="/notfound" element={<Notfound />} />
                 <Route path="/*" element={<Notfound />} />
               </Routes>
