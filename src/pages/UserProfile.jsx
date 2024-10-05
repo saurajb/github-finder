@@ -1,19 +1,28 @@
 import { FaCodepen, FaStore, FaUserFriends, FaUsers } from "react-icons/fa";
-import spinner from "../components/layout/spinner";
+import Spinner from "../components/layout/spinner";
 import { useContext, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { GithubContext } from "../context/github/GithubContext";
 import RepoList from "../components/repos/RepoList";
+import { getuser, getUserRepos } from "../context/github/GithubActions";
 
 function UserProfile() {
-  const { user, getuser, loading, repos, getUserRepos } =
-    useContext(GithubContext);
+  const { user, loading, repos, dispatch } = useContext(GithubContext);
 
   const params = useParams();
 
   useEffect(() => {
-    getuser(params.login);
-    getUserRepos(params.login);
+    const getdata = async () => {
+      dispatch({ type: "SET_LOADING" });
+
+      const userdata = await getuser(params.login);
+      dispatch({ type: "GET_USER", payload: userdata });
+
+      const userrepos = await getUserRepos(params.login);
+      dispatch({ type: "GET_REPOS", payload: userrepos });
+    };
+
+    getdata();
   }, []);
 
   const {
@@ -34,7 +43,7 @@ function UserProfile() {
   } = user;
 
   if (loading) {
-    return <spinner />;
+    return <Spinner />;
   }
 
   const websiteUrl = blog?.startsWith("http") ? blog : "https://" + blog;
