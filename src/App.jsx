@@ -4,7 +4,7 @@ import About from "./pages/About";
 import Home from "./pages/Home";
 import Notfound from "./pages/Notfound";
 import UserProfile from "./pages/UserProfile";
-import Navbar from "./components/layout/navbar";
+import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/footer";
 import Alert from "./components/layout/Alert";
 import { GithubProvider } from "./context/github/GithubContext";
